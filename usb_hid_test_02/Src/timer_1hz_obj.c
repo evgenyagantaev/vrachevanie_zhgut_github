@@ -5,8 +5,9 @@
  *      Author: root
  */
 
-#include <timer_1hz_obj.h>
+#include "timer_1hz_obj.h"
 #include "tim.h"
+#include "input_analizer_obj.h"
 
 //debug
 #include "gpio.h"
@@ -40,16 +41,10 @@ void timer1hz_start(void)
 void timer1hz_increment_tick()
 {
     timer1hz_tick++;
-    //HAL_GPIO_TogglePin(GPIOA, green_led_odrain_Pin);
+    HAL_GPIO_TogglePin(GPIOA, green_led_odrain_Pin);
 
-    //debug
-	/*
-	if((GPIOB->IDR & GPIO_PIN_0) == GPIO_PIN_RESET)
-		GPIOB->BSRR = (uint32_t)GPIO_PIN_0;
-	else
-		GPIOB->BRR = (uint32_t)GPIO_PIN_0;
-	//*/
-
+    input_analizer_check_lines();
+    input_analizer_send_status();
 }
 
 uint32_t timer1hz_get_tick()

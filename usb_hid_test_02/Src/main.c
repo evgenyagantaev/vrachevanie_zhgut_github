@@ -48,39 +48,13 @@
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 
-#include "spi.h"
 #include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
-#include <timer_1hz_obj.h>
+#include "timer_1hz_obj.h"
 #include "timer250hz.h"
 #include "timer_100hz_obj.h"
-
-#include "spi_low_level.h"
-#include "configure_adas1000.h"
-#include "adas1000_get_save_frame.h"
-#include "frame_ring_buffer.h"
-#include "frame_ring_buffer_task.h"
-
-#include "ecg_ring_buffer.h"
-#include "ecg_ring_buffer_task.h"
-#include "isoline_calculation_task.h"
-
-#include "qrs_detection_task.h"
-#include "heart_rate_obj.h"
-#include "heart_rate_calculation_task.h"
-
-#include "acc_data_read_task.h"
-#include "movement_detection_task.h"
-
-#include "diagnost_obj.h"
-#include "diagnostics_task.h"
-
-#include "leadoff_detector_obj.h"
-#include "leadoff_detection_task.h"
-
-
 
 /* Private typedef -----------------------------------------------------------*/
 /* Private define ------------------------------------------------------------*/
@@ -88,8 +62,6 @@
 /* Private variables ---------------------------------------------------------*/
 UART_HandleTypeDef huart1;
 UART_HandleTypeDef huart2;
-SPI_HandleTypeDef hspi1;
-SPI_HandleTypeDef hspi2;
 
 USBD_HandleTypeDef USBD_Device;
 extern PCD_HandleTypeDef hpcd;
@@ -157,9 +129,6 @@ int main(void)
 	MX_TIM2_Init();
 	MX_TIM3_Init();
 	MX_GPIO_Init();
-	MX_SPI1_Init();
-	MX_SPI2_Init();
-	MX_ADC1_Init();
     MX_USART1_UART_Init();
 
 
@@ -185,14 +154,6 @@ int main(void)
 
 
 
-	configure_adas1000();
-	frame_ring_buffer_initialization();
-	heart_rate_init();
-	smb380_write_settings();
-	movement_detector_initialization();
-	diagnost_init();
-
-
 	timer1hz_start();
 	timer250hz_start();
 	timer100hz_start();
@@ -215,6 +176,7 @@ int main(void)
 	  counter++;
 	  //*/
 
+	  /*
 	  frame_ring_buffer_task();
 	  ecg_ring_buffer_task();
 	  leadoff_detection_task();
@@ -225,6 +187,7 @@ int main(void)
 	  movement_detection_task();
 	  temperature_measure_task();
 	  diagnosticsTask();
+	  */
 
   }
 }

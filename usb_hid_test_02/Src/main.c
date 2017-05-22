@@ -126,8 +126,8 @@ int main(void)
 
 
 	MX_TIM4_Init();
-	MX_TIM2_Init();
-	MX_TIM3_Init();
+	//MX_TIM2_Init();
+	//MX_TIM3_Init();
 	MX_GPIO_Init();
     MX_USART1_UART_Init();
 
@@ -155,8 +155,8 @@ int main(void)
 
 
 	timer1hz_start();
-	timer250hz_start();
-	timer100hz_start();
+	//timer250hz_start();
+	//timer100hz_start();
 
 	// red led off
 	HAL_GPIO_WritePin(GPIOA, red_led_odrain_Pin, GPIO_PIN_SET);

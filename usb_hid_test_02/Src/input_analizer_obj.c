@@ -24,6 +24,10 @@ void input_analizer_check_lines()
 		else
 			line_flags[i] = 1;
 	}
+	// turn off high level on input lines (pc8 low)
+	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_8, GPIO_PIN_RESET);
+
+	debug_valve_led_imitation();
 
 	// create message
 	char aux_string[8];
@@ -33,13 +37,13 @@ void input_analizer_check_lines()
 		sprintf(aux_string, "%c%d", delimeters[i], line_flags[i]);
 		strncat(message, aux_string, 2);
 	}
-	strncat(message, "x\r\n", 2);
+	strncat(message, "x\r\n", 3);
 
 }
 
 void input_analizer_send_status()
 {
-	sprintf(message, "a0b0c1d0e0f0g0h0x\r\n");
+	//sprintf(message, "a0b0c1d0e0f0g0h0x\r\n");
 	usart_send_message(message);
 }
 

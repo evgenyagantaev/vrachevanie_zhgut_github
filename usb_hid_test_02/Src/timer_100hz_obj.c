@@ -52,7 +52,7 @@ void timer100hz_increment_tick()
     	// pwm high
 		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_SET);// high
 		// pause
-		for(i=0; i<7000; i++);     //   for(i=0; i<8000; i++);
+		for(i=0; i<8600; i++);     //   for(i=0; i<8000; i++);
 		// pwm low
 		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);// low
     }

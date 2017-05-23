@@ -13,9 +13,12 @@ TIM_HandleTypeDef htim2;
 
 static uint32_t timer100hz_tick = 0;
 
-void timer100hz_start(void);
+void timer100hz_start(int Flag);
 
 void timer100hz_increment_tick();
 uint32_t timer100hz_get_tick();
+
+static int flag = 0;
+void timer100hz_get_flag();
 
 #endif /* INC_TIMER_100HZ_OBJ_H_ */

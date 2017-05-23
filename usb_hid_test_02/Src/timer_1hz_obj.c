@@ -38,6 +38,12 @@ void timer1hz_start(void)
     TIM4->CR1 |= TIM_CR1_CEN;
 }
 
+void timer1hz_stop(void)
+{
+	// disable timer counter (stop count)
+	TIM4->CR1 &= ~TIM_CR1_CEN;
+}
+
 void timer1hz_increment_tick()
 {
     timer1hz_tick++;

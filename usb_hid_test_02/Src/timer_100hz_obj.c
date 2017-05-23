@@ -9,8 +9,10 @@
 #include "tim.h"
 
 
-void timer100hz_start(void)
+void timer100hz_start(int Flag)
 {
+	flag = Flag;
+
     timer100hz_tick = 0;
 
     /* Peripheral clock enable */
@@ -27,27 +29,52 @@ void timer100hz_start(void)
 
     // prescaler value 79; counter frequency = 1MHz
     TIM2->PSC = (uint32_t)79;
-    // auto reload value 10000; period = 10 mSec
-    TIM2->ARR = (uint16_t)10000;
+    // auto reload value 15000; period = 15 mSec
+    TIM2->ARR = (uint16_t)15000;
 
     // enable timer counter (start count)
     TIM2->CR1 |= TIM_CR1_CEN;
 }
 
+void timer100hz_stop(void)
+{
+	// disable timer counter (stop count)
+	TIM2->CR1 &= ~TIM_CR1_CEN;
+}
+
 void timer100hz_increment_tick()
 {
     timer100hz_tick++;
+    volatile long i;
 
-    //debug
-	/*
-	if((GPIOB->IDR & GPIO_PIN_0) == GPIO_PIN_RESET)
-		GPIOB->BSRR = (uint32_t)GPIO_PIN_0;
-	else
-		GPIOB->BRR = (uint32_t)GPIO_PIN_0;
-	//*/
+    if(flag) // otkrytie
+    {
+    	// pwm high
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_SET);// high
+		// pause
+		for(i=0; i<7000; i++);     //   for(i=0; i<8000; i++);
+		// pwm low
+		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);// low
+    }
+    else // zakrytie
+	{
+    	// pwm high
+    		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_SET);// high
+    		// pause
+    		for(i=0; i<18000; i++);   // for(i=0; i<17800; i++);
+    		// pwm low
+    		HAL_GPIO_WritePin(GPIOC, GPIO_PIN_9, GPIO_PIN_RESET);// low
+	}
+
+
 }
 
 uint32_t timer100hz_get_tick()
 {
     return timer100hz_tick;
+}
+
+void timer100hz_get_flag()
+{
+	return flag;
 }

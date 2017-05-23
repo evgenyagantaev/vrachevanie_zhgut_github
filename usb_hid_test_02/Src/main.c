@@ -73,6 +73,8 @@ void Error_Handler(void);
 void JOY_SEL_Init(void);
 void Toggle_Leds(void);
 
+int inflate_line_flag = 0;
+
 /* Private functions ---------------------------------------------------------*/
 
 /**
@@ -103,30 +105,30 @@ int main(void)
 	__HAL_RCC_PWR_CLK_ENABLE();
 
 	/* Enable USB power on Pwrctrl CR2 register */
-	HAL_PWREx_EnableVddUSB();
+	//HAL_PWREx_EnableVddUSB();
 
 	/* Configure LED_GREEN and LED_RED */
 	//BSP_LED_Init(LED_GREEN);
 	//BSP_LED_Init(LED_RED);
 
 	/* Init Device Library */
-	USBD_Init(&USBD_Device, &HID_Desc, 0);
+	//USBD_Init(&USBD_Device, &HID_Desc, 0);
 
 	/* Add Supported Class */
 	//USBD_RegisterClass(&USBD_Device, USBD_HID_CLASS);
-	USBD_RegisterClass(&USBD_Device, &USBD_CUSTOM_HID);
+	//USBD_RegisterClass(&USBD_Device, &USBD_CUSTOM_HID);
 
 	/* Add Custom HID callbacks */
-	USBD_CUSTOM_HID_RegisterInterface(&USBD_Device, &USBD_CustomHID_fops);
+	//USBD_CUSTOM_HID_RegisterInterface(&USBD_Device, &USBD_CustomHID_fops);
 
 	/* Start Device Process */
-	USBD_Start(&USBD_Device);
+	//USBD_Start(&USBD_Device);
 
 	//while(1);
 
 
 	MX_TIM4_Init();
-	//MX_TIM2_Init();
+	MX_TIM2_Init();
 	//MX_TIM3_Init();
 	MX_GPIO_Init();
     MX_USART1_UART_Init();
@@ -156,7 +158,7 @@ int main(void)
 
 	timer1hz_start();
 	//timer250hz_start();
-	//timer100hz_start();
+	//timer100hz_start(1);
 
 	// red led off
 	HAL_GPIO_WritePin(GPIOA, red_led_odrain_Pin, GPIO_PIN_SET);
@@ -168,27 +170,13 @@ int main(void)
   uint32_t frozen_seconds_local = 0;
   while (1)
   {
-	  /*
-	  sprintf(message, "Hello, brother! -> %d\r\n", counter);
-	  USBD_HID_SendReport(&USBD_Device, (uint8_t *)message, strlen(message));
-	  HAL_Delay(1000);
-	  Toggle_Leds();
-	  counter++;
-	  //*/
+	  if(inflate_line_flag)
+	  {
+		  inflate_line_flag = 0;
 
-	  /*
-	  frame_ring_buffer_task();
-	  ecg_ring_buffer_task();
-	  leadoff_detection_task();
-	  isoline_calculation_task();
-	  qrs_detection_task();
-	  heart_rate_calculation_task();
-	  acc_data_read_task();
-	  movement_detection_task();
-	  temperature_measure_task();
-	  diagnosticsTask();
-	  */
-
+		  // inflate
+		  inflate_line(0);
+	  }
   }
 }
 

@@ -17,4 +17,6 @@ static int *input_flags;
 void debug_valve_led_imitation();
 void inflate_line(int line_number);
 
+extern int inflate_line_flag;
+
 #endif /* INFLATOR_OBJ_H_ */

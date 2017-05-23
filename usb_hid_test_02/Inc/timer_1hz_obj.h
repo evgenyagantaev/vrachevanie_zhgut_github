@@ -15,6 +15,7 @@ TIM_HandleTypeDef htim1;
 static uint32_t timer1hz_tick = 0;
 
 void timer1hz_start(void);
+void timer1hz_stop(void);
 
 void timer1hz_increment_tick();
 uint32_t timer1hz_get_tick();
